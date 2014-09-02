@@ -1,0 +1,107 @@
+# Comments begin with #, blank lines are OK too.  Anything else
+# that is not a recognized keyword will cause the program to stop.
+
+# Skip Moon Bright Time, larger fractions of this % Moon illumination
+# will be skipped.  75.0 is the default if you do not have this in.
+MOONL: 75.0
+
+# Make up for missed observing epochs.  The weather is very good at the
+# site, about 95% of the desired observations are made, so the makeup is 
+# implemented very simply.  If an observation is
+# missed one night, then the next night a repeat will be tried.  That
+# is it.  The default is to make up.  Set it to 0 if you do not want
+# to make up.  
+MAKEUP: 1
+
+# Airmass cut.  Observations at AIRMASS higher than this will be skipped.
+# 2.0 is the default.
+AIRMASS: 2.0
+
+# Now begins the fields of the observations
+# Field ID RA(degrees) DEC(degrees) Start(Years) End(Years)
+# SNANA expects each field to have a unique ID
+FIELDID: 1427
+FIELDRA: 53.008961
+FIELDDEC: -27.438828
+FIELDSTART: 0.0 
+FIELDEND: 10.0
+
+# For the field you then specify the filters to be used, the cadence
+# of the visits in days, and the exposure time in seconds.  The standard
+# LSST exposure is 34 seconds and most of the Deep Fields are observed
+# with about 20 standard exposures with each visit.
+# Filter Cadence(days) Exposure (Sec 34 = 1 LSST standard exposure)
+FIELDFILTER: u
+FIELDCAD: 3
+FIELDEXP: 680
+
+FIELDFILTER: g
+FIELDCAD: 3
+FIELDEXP: 680
+
+FIELDFILTER: r
+FIELDCAD: 3
+FIELDEXP: 680
+
+FIELDFILTER: i
+FIELDCAD: 3
+FIELDEXP: 680
+
+FIELDFILTER: z
+FIELDCAD: 3
+FIELDEXP: 680
+
+FIELDFILTER: y
+FIELDCAD: 3
+FIELDEXP: 680
+
+# Note that the camera only holds five filters and thus each night
+# only five filters can be used.  The above will result, barring
+# missed observations, in the ugriz filters every 3 nights, and the
+# y filter on the nights after the ugriz observations.  The algorithm 
+# is to displace the last filter in the list by a day when six filters 
+# are asked for on one night.
+
+# On to the next field, only observed for 5 years, for example.
+# Currently limited to 100 fields, but this could easily changed.
+# Let cinabro know if 100 fields is not enough.
+FIELDID: 519
+FIELDRA: 69.453789
+FIELDDEC: -53.470478
+FIELDSTART: 0.0 
+FIELDEND: 5.0
+
+# Filters and cadences in the this field.  There is no reason to
+# make the cadences and exposure times the same for all the
+# filters
+FIELDFILTER: g
+FIELDCAD: 4
+FIELDEXP: 340
+FIELDFILTER: r
+FIELDCAD: 2
+FIELDEXP: 680
+FIELDFILTER: i
+FIELDCAD: 2
+FIELDEXP: 680
+FIELDFILTER: z
+FIELDCAD: 4
+FIELDEXP: 680
+FIELDFILTER: y
+FIELDCAD: 4
+FIELDEXP: 340
+
+# Now the second 5 years of that field doing something different.
+FIELDID: 519
+FIELDRA: 69.453789
+FIELDDEC: -53.470478
+FIELDSTART: 5.0 
+FIELDEND: 10.0
+FIELDFILTER: g
+FIELDCAD: 2
+FIELDEXP: 680
+FIELDFILTER: r
+FIELDCAD: 2
+FIELDEXP: 680
+FIELDFILTER: i
+FIELDCAD: 2
+FIELDEXP: 680

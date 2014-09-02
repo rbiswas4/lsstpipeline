@@ -1,0 +1,35 @@
+#
+#  sim_SNmix.pl Mix_sim.input
+#
+
+NODELIST: grb
+
+GENVERSION: genversion
+GENOPT: CUTWIN_SNRMAX 3 griz 2 -20. 80.
+
+ENDLIST_GENVERSION:
+
+# specify sim-input files for snlc_sim.exe
+SIMGEN_INFILE_Ia:       SIMGEN_LSSTDEEP_Ia.input
+SIMGEN_INFILE_NONIa:    SIMGEN_LSSTDEEP_NONIA.input
+NGEN_UNIT: numseasons  SEASONS  # scale NGENTOT_LC to this many seasons
+#NGEN_UNIT: 0.02  SEASONS  # scale NGENTOT_LC to this many seasons
+#NGEN_UNIT: 0.002  SEASONS  # scale NGENTOT_LC to this many seasons
+
+# define required global items to ensure uniformity among all jobs
+H0: 70
+ZRANGE:      0.0101 1.2  # redshift range
+GENPREFIX:   genprefix       # prefix of all data filenames
+RANSEED:     123459    # random seed
+FORMAT_MASK: 48        # 26=BLIND  18=UNBLIND 
+# "16" bit means random CIDs,  so set to 2 if not random, set to 1 for nonrandom full format
+SIMLIB_FILE: pipelinesimlib 
+#SIMLIB_FILE: output_opsim2_168.SIMLIB.COADD.DEEP
+GENMODEL:    SALT2
+# ------------------------------------------------------
+
+RATESCALE_NONIa:  1.0
+RATESCALE_Ia:     1.0
+
+CLEANUP_FLAG: 1  # turn this off only for debugging.
+

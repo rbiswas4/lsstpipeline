@@ -1,0 +1,73 @@
+
+# ========================================
+# LSST DEEP sim-input file.
+#
+# Copied from DES, then modified.
+#
+# ===========================================
+
+SIMLIB_FILE: output_opsim2_168.SIMLIB.COADD.DEEP
+#SIMLIB_FILE: myLSSTdfacg_rb.SIMLIB
+#SIMLIB_FILE: output_opsim4_262_year01.SIMLIB.COADD.DEEP
+SIMLIB_IDSKIP:  97  # egip field with MWEBV = .25  (v3_61)
+SIMLIB_IDSKIP: 1801 # egip field with MWEBV = .3   (v3_61)
+
+SOLID_ANGLE: 0.027786              # 10 * (S1*9.6)*EFFCCD
+#SOLID_ANGLE: 0.01945              # 7 * (S1*9.6)*EFFCCD
+#HOSTLIB_FILE:  LSST_2p5.HOSTLIB
+#HOSTLIB_FILE:  LSST.HOSTLIB
+#HOSTLIB_GENRANGE_NSIGZ: -2. +2.
+
+# 11400 per seaon
+NGENTOT_LC:  11400         # one season up to Zmax=1.1
+GENVERSION:  RKLSSTDEEP_TEST     # SNDATA version to generate
+GENSOURCE:   RANDOM   
+GENMODEL:    SALT2
+
+INPUT_FILE_INCLUDE:  ./SIMGEN_INCLUDE_Ia_SALT.input
+
+GENFILTERS:  ugrizY
+#KCOR_FILE:   LSST/kcor_LSST_Bessell90_VEGA.fits
+KCOR_FILE:   LSST/kcor_LSST_baseline.noleakage.v1.fits
+
+# selection criteria for generation
+GENRANGE_PEAKMJD: 49320.0  49740.0
+GENSIGMA_SEARCH_PEAKMJD:  1.0     # sigma-smearing for  SEARCH_PEAKMJD (days)
+
+GENRANGE_REDSHIFT:  0.02  1.1
+GENSIGMA_REDSHIFT:  1.00       # large error => no Zspec
+
+OPT_MWCOLORLAW: 99
+OPT_MWEBV: 2
+
+RANSEED: 12945       # random number seed
+
+# smear flags: 0=off, 1=on
+SMEARFLAG_FLUX:    1  # photo-stat smearing of signal, egy, etc ...
+SMEARFLAG_ZEROPT:  1  # smear zero-point with zptsig
+SMEARFLAG_HOSTGAL: 0  # include host-gal noise
+
+# determine what to output: 0=> no output;  1=>make output
+
+GEN_SNDATA_SIM:  18  # 2=terse  8=BLIND  16=CIDRAN
+
+# ---------------------------------------------------
+# Spectroscopically confirmed subset
+
+# EFF(r) = EFF0 * (1-x^EFFEXP),  x=(PKMAG-MAGMIN)/(MAGMAX-MAXMIN)
+              
+         FILT  EFF0 MAGMIN MAXMAG EFFEXP  ZERR
+SPECTYPE:   r   0.2   16.0  21.5    5    0.005
+SPECTYPE:   i   0.2   21.5  23.5    6    0.005
+# --------------------------------------------------
+
+APPLY_SEARCHEFF_OPT: 0  # apply trigger and mark data files when satisfied
+
+
+# cosmological params for lightcurve generation and redshift distribution
+OMEGA_MATTER:  0.32
+OMEGA_LAMBDA:  0.68
+W0_LAMBDA:    -1.00
+H0:           70.0   
+
+

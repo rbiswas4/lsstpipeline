@@ -1,0 +1,83 @@
+
+# ========================================
+# LSST DEEP sim-input file.
+#
+# Copied from DES, then modified.
+#
+# ===========================================
+
+SIMLIB_FILE: output_opsim2_168.SIMLIB.COADD.DEEP
+#SIMLIB_FILE: output_opsim4_262_year01.SIMLIB.COADD.DEEP
+#HOSTLIB_FILE:  LSST.HOSTLIB
+#HOSTLIB_GENRANGE_NSIGZ: -2. +2.
+SOLID_ANGLE: 0.027786   # 10 fields
+#SOLID_ANGLE: 0.01945   # 7 fields
+CIDOFF: 100000
+
+NGENTOT_LC:  103000        # one season up to Zmax=1.1
+GENVERSION:  RKLSSTDEEP_TEST     # SNDATA version to generate
+GENSOURCE:   RANDOM   
+GENMODEL:    NONIA
+
+GENFILTERS:  ugrizY
+INPUT_FILE_INCLUDE:  SIMGEN_INCLUDE_NONIA_RICKTUNE.input
+
+KCOR_FILE:  LSST/kcor_LSST_Asahi.v1.fits
+#KCOR_FILE:  LSST/kcor_LSST_Bessell90_VEGA.fits
+
+# selection criteria for generation
+GENRANGE_PEAKMJD: 49320.0  49740.0
+GENSIGMA_SEARCH_PEAKMJD:  1.0     # sigma-smearing for  SEARCH_PEAKMJD (days)
+
+GENRANGE_REDSHIFT:  0.02  1.1
+GENSIGMA_REDSHIFT:  0.005       # large error => no Zspec
+
+EXTINC_MILKYWAY:    1              # 0,1 => MW extinction off,on
+
+GENMODEL_ERRSCALE:  2.0       # apply model errors with this scale
+GENMEAN_RV:   2.18
+GENSIGMA_RV:  0.01  0.01        # lower,upper guassian-sigmas
+GENRANGE_RV:  2.1  4.1         # gen-range for RV
+GENRANGE_AV:  0.0  2.0
+GENTAU_AV:    0.334
+
+RANSEED: 12945       # random number seed
+
+# smear flags: 0=off, 1=on
+SMEARFLAG_FLUX:    1  # photo-stat smearing of signal, sky, etc ...
+SMEARFLAG_ZEROPT:  1  # smear zero-point with zptsig
+SMEARFLAG_HOSTGAL: 0  # include host-gal noise
+
+# ---------------------------------------------------
+# Spectroscopically confirmed subset
+
+# EFF(r) = EFF0 * (1-x^EFFEXP),  x=(PKMAG-MAGMIN)/(MAGMAX-MAXMIN)
+              
+         FILT  EFF0 MAGMIN MAXMAG EFFEXP  ZERR
+SPECTYPE:   r   0.20   16.0  21.5    5    0.005
+SPECTYPE:   i   0.20   21.5  23.5    6    0.005
+# --------------------------------------------------
+
+APPLY_SEARCHEFF_OPT: 0  # apply trigger and mark data files when satisfied
+
+APPLY_CUTWIN_OPT: 1
+CUTWIN_NEPOCH: 5 -5.             # require 5 epochs (no S/N requirement)
+CUTWIN_Trestmin  = -15.0,  0.0
+CUTWIN_Trestmax  = 10.0,  80.0
+# Need to put SNRMAX cuts on command line in v9_65 for 10_5_5
+#CUTWIN_SNRMAX: 5 griz 3 -20. 80. # require 1 of griz with S/N > 5
+
+# cosmological params for lightcurve generation and redshift distribution
+OMEGA_MATTER:  0.32
+OMEGA_LAMBDA:  0.68
+W0_LAMBDA:    -1.00
+H0:           70.0   
+
+
+SIMGEN_DUMP:  39  CID CUTMASK GENTYPE  SNTYPE  NON1A_INDEX  GENZ  
+LIBID RA DECL MWEBV MU MJD0  
+MAGT0_u MAGT0_g MAGT0_r MAGT0_i MAGT0_z MAGT0_Y
+SNRMAX_u SNRMAX_g SNRMAX_r SNRMAX_i SNRMAX_z SNRMAX_Y 
+SNRMAX SNRMAX2 SNRMAX3 
+NOBS TRESTMIN  TRESTMAX  TGAPMAX  
+AV RV DELTA S2alpha S2beta S2x0 S2x1 S2c
