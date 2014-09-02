@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 
+programdir = os.path.dirname(os.path.realpath(__file__))
 
 def get_userinfo():
 
@@ -80,6 +81,9 @@ def processfile(jobfile) :
 	return jobdict
 
 
+def modifySNANAfiles(cache , simdict):
+
+	return 0 
 if __name__=="__main__":
 
 

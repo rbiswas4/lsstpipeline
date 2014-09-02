@@ -59,32 +59,7 @@ else:
  
 	
 if jobdict['simulate_using'][0] == 'snana':
-
+	utils.modifysnanafiles(cache, sndict)	
+	os.system('sim_SNMix.pl Mix_sim.input')
 print logstring
 exit()
-#Find out what to do
-
-
-
-
-
-#cache = mydir + 'cache/' 
-strategyfile = "example_data/myLSSTdfacg.dat"
-opsiminfile = "opsiminfile.dat"
-simlibfile = 'opsim.SIMLIB'
-
-
-
-mydir = os.getcwd() + "/"
-
-
-#Get INPUT required for OPSIMOBS from strategy
-strategy2opsimin.lsstdfacg(act = "I", dfacgf = strategyfile, outfile = cache + opsiminfile)
-
-#TODO: Even better change opsimObs, so that it need not be run from the 
-      #directory
-os.chdir(opsimdir)
-op.getopsimouts( cache + opsiminfile,  "opsimSky.conf", outfile = cache + "opsimout.dat")
-os.chdir(mydir)
-#Get simlib from output
-opsim2simlib.lsstsimlib(opsimf = cache + "opsimout.dat", simlib = cache + simlibfile)
