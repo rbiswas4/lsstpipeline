@@ -1,6 +1,6 @@
 runprefix = RBtest
-cache = ${HOME}/src/lsstpipeline/cache 
-createsimlib = True :${HOME}/src/lsstpipeline/example_data/myLSSTdfacg.dat
+cache = /Users/rbiswas/src/lsstpipeline/cache 
+createsimlib = True : /Users/rbiswas/src/lsstpipeline/example_data/myLSSTdfacg.dat
 #simulate_using = snana : c/home/rbiswas/src/LSST/makelsstsims/config/snsim.input
 #runname = 
 #filters = 

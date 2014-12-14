@@ -4,7 +4,7 @@
 import strategy2opsimin
 import os
 import opsim2simlib
-#import OpsimObs.opsimObs as 
+import OpsimObs.opsimObs as op
 
 
 
