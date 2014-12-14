@@ -3,8 +3,8 @@
 #class SimLSST(strategyfile, simname):
 import strategy2opsimin
 import os
-import opsimObs.opsimObs as op
 import opsim2simlib
+#import OpsimObs.opsimObs as 
 
 
 

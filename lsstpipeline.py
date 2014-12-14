@@ -3,7 +3,7 @@
 #import strategy2opsimin
 import os
 import simlibio as sio
-#import opsimObs.opsimObs as op
+import OpsimObs.opsimObs as op
 #import opsim2simlib
 import utils 
 import argparse
@@ -37,6 +37,7 @@ print jobdict
 #Fill in some values from input file 
 #cache
 cache = jobdict["cache"] [0] + "/"
+print cache
 	#create the cache if it does not exist:
 if not os.path.exists(cache):
 	os.makedirs(cache)
