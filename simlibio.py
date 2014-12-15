@@ -29,8 +29,7 @@ def strategy2simlib(strategyfile , dataprefix, cache, simlibfile=None):
 	#TODO: Even better change opsimObs, so that it need not be run from the 
 	#directory
 	os.chdir(opsimdir)
-	op.getopsimouts( cache + opsiminfile,  "opsimSky.conf", 
-		outfile=cache + dataprefix+ "_opsimout.dat")
+	op.getopsimouts( cache + opsiminfile,  "opsimSky.conf", outfile=cache + dataprefix+ "_opsimout.dat")
 	os.chdir(programdir)
 	#Get simlib from output
 	opsim2simlib.lsstsimlib(opsimf = cache + dataprefix +"_opsimout.dat", simlib = cache + simlibfile)
