@@ -9,8 +9,8 @@ Prerequisites:
  - gfortran, f2py, standard python packages
  - pyslalib: clone from https://github.com/scottransom/pyslalib and install 
  - throughputs (just wget http://dev.lsstcorp.org/cgit/LSST/sims/throughputs.git/snapshot/throughputs-1.2.tar.gz and     unatar it. You will require the path to this directory).  
- - opsimobs (from Lynne Jones, slightly modified at present, clone from ) 
- - SNcosmo (install following instructions) 
+ - opsimobs (forked from Lynne Jones' https://github.com/rhiannonlynne/OpsimObs , slightly modified at present, clone from https://github.com/rbiswas4/OpsimObs) 
+ - SNcosmo (install following instructions, working with developer version) 
  - SNANA (install following instructions)  
  
 Setting up:
