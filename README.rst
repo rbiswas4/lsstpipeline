@@ -10,8 +10,8 @@ Prerequisites:
  - pyslalib: clone from https://github.com/scottransom/pyslalib and install 
  - throughputs (just wget http://dev.lsstcorp.org/cgit/LSST/sims/throughputs.git/snapshot/throughputs-1.2.tar.gz and     unatar it. You will require the path to this directory).  
  - opsimobs (forked from Lynne Jones' https://github.com/rhiannonlynne/OpsimObs , slightly modified at present, clone from https://github.com/rbiswas4/OpsimObs) 
- - SNcosmo (install following instructions, working with developer version) 
- - SNANA (install following instructions)  
+ - SNcosmo (install following instructions, working with developer version: https://github.com/sncosmo/sncosmo)
+ - SNANA (install following instructions http://das.sdss2.org/ge/sample/sdsssn/SNANA-PUBLIC/)
  
 Setting up:
 ==========
