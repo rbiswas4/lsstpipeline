@@ -63,6 +63,7 @@ if jobdict['simulate_using'][0] == 'snana':
     utils.modifysnanafiles(cache, sndict)	
     os.system('sim_SNMix.pl Mix_sim.input')
 elif jobdict['simulate_using'][0] == 'sncosmo':
+    pass 
 
 print logstring
 exit()
