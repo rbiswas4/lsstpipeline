@@ -21,9 +21,9 @@ logstring += utils.get_userinfo()
 
 #parse command line arguments
 parser = argparse.ArgumentParser(prog="lsstpipeline.py", 
-	description = """Runs the lsst pipeline based on several input files, but takes the jobs file as an argument """)
+                                description= """Runs the lsst pipeline based on several input files, but takes the jobs file as an argument """)
 parser.add_argument("--inputfile", type=str, default=None, 
-	required=True, help="Absolute path to the input file for the pipeline")
+                    required=True, help="Absolute path to the input file for the pipeline")
 args = parser.parse_args()
 inputfile = args.inputfile
 
@@ -38,10 +38,10 @@ print jobdict
 #cache
 cache = jobdict["cache"] [0] + "/"
 print cache
-	#create the cache if it does not exist:
+    # create the cache if it does not exist:
 if not os.path.exists(cache):
-	os.makedirs(cache)
-	logstring += "cache created \n"
+    os.makedirs(cache)
+    logstring += "cache created \n"
 
 #Set the data file prefix
 dataprefix = jobdict["runprefix"][0]
@@ -51,16 +51,18 @@ logstring += "found the data prefix " + dataprefix + "\n"
 simlibfilename = dataprefix +"_opsim.simlib"
 strategyfilename = jobdict["createsimlib"][1]
 if utils.str2bool(jobdict["createsimlib"][0]):
-	logstring += "creating simlib file " + simlibfilename + " from stratgy file " + strategyfilename + "\n"
-	sio.strategy2simlib(strategyfile=strategyfilename, cache=cache, dataprefix=dataprefix, simlibfile=simlibfilename) 
+    logstring += "creating simlib file " + simlibfilename + " from stratgy file " + strategyfilename + "\n"
+    sio.strategy2simlib(strategyfile=strategyfilename, cache=cache, dataprefix=dataprefix, simlibfile=simlibfilename) 
 	
 else:
-	simlibfilename = strategyfilename
-	logstring += "simlib file provided as "+ simlibfilename + "\n"
+    simlibfilename = strategyfilename
+    logstring += "simlib file provided as "+ simlibfilename + "\n"
  
 	
 if jobdict['simulate_using'][0] == 'snana':
-	utils.modifysnanafiles(cache, sndict)	
-	os.system('sim_SNMix.pl Mix_sim.input')
+    utils.modifysnanafiles(cache, sndict)	
+    os.system('sim_SNMix.pl Mix_sim.input')
+elif jobdict['simulate_using'][0] == 'sncosmo':
+
 print logstring
 exit()
