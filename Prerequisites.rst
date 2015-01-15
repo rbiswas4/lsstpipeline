@@ -1,6 +1,7 @@
 Prerequisites:
 ==============
- - gfortran, f2py, standard python packages
+
+- gfortran, f2py, standard python packages
  - anaconda python: Things should work with other python 2.7.5 versions, but we 
    often work with anaconda python. So, this is well tested on anaconda python.
  - throughputs for LSST. You need the path to the throughputs directory:: 
