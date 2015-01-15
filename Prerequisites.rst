@@ -15,7 +15,6 @@ Prerequisites:
    conda update astropy
    pip install emcee triangle iminuit
 
->>>>>>> 46a64d35446fb80f1a439efa9b2c94087389ae34
 - throughputs for LSST. You need the path to the throughputs directory:: 
   
    wget http://dev.lsstcorp.org/cgit/LSST/sims/throughputs.git/snapshot/throughputs-1.2.tar.gz
