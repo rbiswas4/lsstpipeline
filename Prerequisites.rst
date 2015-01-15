@@ -2,8 +2,8 @@ Prerequisites:
 ==============
 
 - gfortran, f2py, standard python packages
-- anaconda python: Things should work with other python 2.7.5 versions, but we 
-   often work with anaconda python. So, this is well tested on anaconda python.
+- anaconda python: 
+  Things should work with other python 2.7.5 versions, but we often work with anaconda python. So, this is well tested on anaconda python. This can be downloaded from https://store.continuum.io/cshop/anaconda/
 - throughputs for LSST. You need the path to the throughputs directory:: 
   
    wget http://dev.lsstcorp.org/cgit/LSST/sims/throughputs.git/snapshot/throughputs-1.2.tar.gz
