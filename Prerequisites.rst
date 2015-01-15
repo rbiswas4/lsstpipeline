@@ -1,6 +1,9 @@
 Prerequisites:
 ==============
 
+- gfortran, f2py, standard python packages
+- anaconda python: 
+  Things should work with other python 2.7.5 versions, but we often work with anaconda python. So, this is well tested on anaconda python. This can be downloaded from https://store.continuum.io/cshop/anaconda/
 - gfortran, f2py
 - Python packages: 
   We mostly use anaconda python which conveniently comes packaged with several 
