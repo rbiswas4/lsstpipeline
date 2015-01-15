@@ -2,7 +2,7 @@
 
 mydir=`pwd`
 export OPSIMOBS=${HOME}/src/OpsimObs
-export throughputsdir=${THROUGHPUTSDIR}
+export THROUGHPUTS_DIR=${HOME}/data/throughputs-1.2
 #cd ${throughputsdir} 
 #source ups/throughputs.sh
 #cd ${mydir}
