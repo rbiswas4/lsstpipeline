@@ -44,11 +44,12 @@ def getlsstbandpassobjs(plot=False):
             sncosmoband = sncosmo.Bandpass(wave=numpyband[:, 0],
                                            trans=numpyband[:, 1],
                                            wave_unit=Unit('nm'),
-                                           name=band)
+                                           name='LSST_' + band)
             sncosmo.registry.register(sncosmoband, force=True)
     if plot:
+        filterfigs, filterax = plt.subplots()
         for band in bandPassList:
-            b = sncosmo.get_bandpass(band)
+            b = sncosmo.get_bandpass('LSST_' + band)
             filterax.plot(b.wave, b.trans, '-k', lw=2.0)
     return None
 def simulate_simlib(simlibfile):
