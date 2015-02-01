@@ -52,6 +52,8 @@ def getlsstbandpassobjs(plot=False):
             b = sncosmo.get_bandpass('LSST_' + band)
             filterax.plot(b.wave, b.trans, '-k', lw=2.0)
     return None
+
+
 def simulate_simlib(simlibfile):
     """
     Simulate SN based on the simlibfile using SNCosmo SALT models
@@ -127,7 +129,9 @@ def cosmoRate(z, alpha=2.6e-5, beta=1.5, H0=70):
     Returns the rate of SN in units of number of SN per Mpc^3 comoving volume
     per year for the redshift(s) z according to power law relations 
     alpha ( 1 + z) ** beta usually used in the literature.
-    Paramters
+
+
+    Parameters
     ---------
     z : float or array of floats, mandatory
         redshifts at which 
