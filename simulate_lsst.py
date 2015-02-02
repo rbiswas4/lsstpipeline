@@ -53,43 +53,75 @@ def getlsstbandpassobjs(plot=False):
             filterax.plot(b.wave, b.trans, '-k', lw=2.0)
     return None
 
+def _prefixbands(prefix, obstable) 
+    _bb = np.array(obstable['FLT'])
+    _lsst = np.array([prefix]*len(_bb), dtype='S6')
+    return map ( ''.join, zip(_lsst,_bb))
+def manipulateObsTable(obstable):
+    """
+    Manipulate obstable read in from a SNANA style SIMLIB file into required
+    columns for SNCosmo to work. This is an inplace modification leading to 
+    no returns, but the input table itself is modified
 
-def simulate_simlib(simlibfile):
+
+    Parameters
+    ----------
+    obstable: `~astropy.Table`, mandatory
+    Table of observations corresponding to a single field having the columns
+    'MJD', 'ZPTAVG', 'CCD_GAIN' 'SKYSKIG', 'FLT':
+    """
+    col = Table.Column(obstable['SEARCH'].size*['ab'], name='zpsys')
+    obstable.add_column(col)
+    obstable['MJD'].name =  'time'
+    obstable['ZPTAVG'].name =  'zp'
+    obstable['CCD_GAIN'].name =  'gain'
+    obstable['SKYSIG'].name =  'skynoise'
+    col = Table.Column(_prefixbandname("LSST_", obstable), name='band')
+    obstable.add_column(col)       
+
+    return None
+
+
+def simulate_simlib(simlibfile, snmodelsource, outfile):
     """
     Simulate SN based on the simlibfile using SNCosmo SALT models
+
 
     Parameters
     ----------
     simlibfile :
 
-    snmodelsource :
+    snmodelsource:
 
-    outfile :
-
+    outfile:
 
     Returns
     -------
 
     """
-
     from astropy.units import Unit
     from astropy.coordinates import SkyCoord
+
+    # read the simlibfile into obstables
+    meta, obstables = sncosmo.read_snana_simlib(simlibfilename)
+
+    # set the SNCosmo model source
     dustmaproot = os.getenv('SIMS_DUSTMAPS_DIR')
     map_dir = os.path.join(dustmaproot, 'DustMaps')
+    dust = sncosmo.CCM89Dust()
     model = Model(source="salt2-extended",
-                  effects=[sncosmo.CCM89Dust()], effect_names=['mw'],
-                  effect_frames=['obs'])
+                  effects=[dust, dust],
+                  effect_frames=['rest', 'obs'],
+                  effect_names=['host', 'mw'])
 
-    meta, obstables = sncosmo.read_snana_simlib(simlibfile)
+    # Different fields in SIMLIB are indexed by libids
     libids = obstables.keys()
     lcs = []  
     for libid in libids:
+
+        # Get the obstable corresponding to each field
         obstable = obstables[libid]
-        # obstable = obstable[0:2]
-        print 'subseting'
-        maxmjd = obstable['MJD'].max()
-        minmjd = obstable['MJD'].min()
-        rangemjd = maxmjd - minmjd 
+        manipulateObsTable(ObsTable)
         # Need Area from PixSize
         ra  =  obstable.meta['RA']
         dec  =  obstable.meta['DECL']
@@ -98,13 +130,13 @@ def simulate_simlib(simlibfile):
                                            interpolate=False)
         model.set(mwebv=t_mwebv) 
         params = []
-        col = Table.Column(obstable['SEARCH'].size*['ab'], name='zpsys')
-        obstable['FLT'].name =  'band'
-        obstable['MJD'].name =  'time'
-        obstable['ZPTAVG'].name =  'zp'
-        obstable['CCD_GAIN'].name =  'gain'
-        obstable['SKYSIG'].name =  'skynoise'
-        obstable.add_column(col)
+        #col = Table.Column(obstable['SEARCH'].size*['ab'], name='zpsys')
+        #obstable['FLT'].name =  'band'
+        #obstable['MJD'].name =  'time'
+        #obstable['ZPTAVG'].name =  'zp'
+        #obstable['CCD_GAIN'].name =  'gain'
+        #obstable['SKYSIG'].name =  'skynoise'
+        #obstable.add_column(col)
         redshifts = list(sncosmo.zdist(0., 1.2, ratefunc=cosmoRate, time = rangemjd, area=1.))
         print 'num SN generated ', len(redshifts)
 	for z in redshifts:
