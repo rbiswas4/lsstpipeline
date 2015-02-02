@@ -82,15 +82,31 @@ print model # This is the second model
 
 # Manipulate Obstable to form we can use for SNCosmo realize_lcs
 # Should make a function using this for future
-col = Table.Column(obstable['SEARCH'].size*['ab'], name='zpsys')
-obstable.add_column(col)
-obstable['MJD'].name =  'time'
-obstable['ZPTAVG'].name =  'zp'
-obstable['CCD_GAIN'].name =  'gain'
-obstable['SKYSIG'].name =  'skynoise'
-col = Table.Column(prefixbandname("LSST_", obstable), name='band')
-obstable.add_column(col)       
+def manipulateObsTable(obstable):
+    """
+    Manipulate obstable read in from a SNANA style SIMLIB file into required
+    columns for SNCosmo to work. This is an inplace modification leading to 
+    no returns, but the input table itself is modified
 
+
+    Parameters
+    ----------
+    obstable: `~astropy.Table`, mandatory
+    Table of observations corresponding to a single field having the columns
+    'MJD', 'ZPTAVG', 'CCD_GAIN' 'SKYSKIG', 'FLT':
+    """
+    col = Table.Column(obstable['SEARCH'].size*['ab'], name='zpsys')
+    obstable.add_column(col)
+    obstable['MJD'].name =  'time'
+    obstable['ZPTAVG'].name =  'zp'
+    obstable['CCD_GAIN'].name =  'gain'
+    obstable['SKYSIG'].name =  'skynoise'
+    col = Table.Column(prefixbandname("LSST_", obstable), name='band')
+    obstable.add_column(col)       
+
+    return None
+
+manipulateObsTable(obstable)
 # Now display the table of observations
 print str(obstable)
 
@@ -111,7 +127,7 @@ print str(len(relevantdata[0]))
 
 model.set(**params[0])
 
-fig_relevant = sncosmo.plot_lc(relevantdata[0], model=model)
+# fig_relevant = sncosmo.plot_lc(relevantdata[0], model=model)
 
 #print "Close Window to continute"
 #pl.show()
