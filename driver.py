@@ -24,7 +24,7 @@ particular strategy.
 """
 
 simlibfilename = '/home/kushner/src/lsstpipeline/cache/RBtest_opsim.simlib'
-#simlibfilename = 'cache/RBtest_opsim.simlib'
+simlibfilename = 'cache/RBtest_opsim.simlib'
 
 # set up bandpasses for LSST
 sl.getlsstbandpassobjs(plot=False)

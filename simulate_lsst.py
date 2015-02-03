@@ -53,10 +53,12 @@ def getlsstbandpassobjs(plot=False):
             filterax.plot(b.wave, b.trans, '-k', lw=2.0)
     return None
 
-def _prefixbands(prefix, obstable) 
+def _prefixbands(prefix, obstable):
     _bb = np.array(obstable['FLT'])
     _lsst = np.array([prefix]*len(_bb), dtype='S6')
     return map ( ''.join, zip(_lsst,_bb))
+
+
 def manipulateObsTable(obstable):
     """
     Manipulate obstable read in from a SNANA style SIMLIB file into required
