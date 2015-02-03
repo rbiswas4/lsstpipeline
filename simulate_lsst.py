@@ -78,13 +78,13 @@ def manipulateObsTable(obstable):
     obstable['ZPTAVG'].name =  'zp'
     obstable['CCD_GAIN'].name =  'gain'
     obstable['SKYSIG'].name =  'skynoise'
-    col = Table.Column(_prefixbandname("LSST_", obstable), name='band')
+    col = Table.Column(_prefixbands("LSST_", obstable), name='band')
     obstable.add_column(col)       
 
     return None
 
 
-def simulate_simlib(simlibfile, snmodelsource, outfile):
+def simulate_simlib(simlibfile, snmodelsource, outfile='simulatedlc.dat'):
     """
     Simulate SN based on the simlibfile using SNCosmo SALT models
 
@@ -111,7 +111,7 @@ def simulate_simlib(simlibfile, snmodelsource, outfile):
     dustmaproot = os.getenv('SIMS_DUSTMAPS_DIR')
     map_dir = os.path.join(dustmaproot, 'DustMaps')
     dust = sncosmo.CCM89Dust()
-    model = Model(source="salt2-extended",
+    model = Model(source=snmodelsource, 
                   effects=[dust, dust],
                   effect_frames=['rest', 'obs'],
                   effect_names=['host', 'mw'])
@@ -123,10 +123,14 @@ def simulate_simlib(simlibfile, snmodelsource, outfile):
 
         # Get the obstable corresponding to each field
         obstable = obstables[libid]
-        manipulateObsTable(ObsTable)
+        manipulateObsTable(obstable)
         # Need Area from PixSize
         ra  =  obstable.meta['RA']
         dec  =  obstable.meta['DECL']
+        area = obstable.meta['PIXSIZE']
+        maxmjd = obstable['time'].max()
+        minmjd = obstable['time'].min()
+        rangemjd = maxmjd - minmjd 
         skycoords = SkyCoord(ra, dec, unit='deg')
         t_mwebv = sncosmo.get_ebv_from_map(skycoords, mapdir=map_dir,
                                            interpolate=False)
@@ -139,7 +143,7 @@ def simulate_simlib(simlibfile, snmodelsource, outfile):
         #obstable['CCD_GAIN'].name =  'gain'
         #obstable['SKYSIG'].name =  'skynoise'
         #obstable.add_column(col)
-        redshifts = list(sncosmo.zdist(0., 1.2, ratefunc=cosmoRate, time = rangemjd, area=1.))
+        redshifts = list(sncosmo.zdist(0., 1.2, ratefunc=cosmoRate, time = rangemjd, area=area))
         print 'num SN generated ', len(redshifts)
 	for z in redshifts:
 	    mabs = normal(-19.3, 0.3)
@@ -150,12 +154,13 @@ def simulate_simlib(simlibfile, snmodelsource, outfile):
 	    p = {'z':z, 't0':uniform(minmjd, maxmjd), 'x0':x0, 'x1': normal(0., 1.), 'c': normal(0., 0.1)}
 	    params.append(p)
         print 'realizing SN'
-        lcslib  =  sncosmo.realize_lcs(obstable, model, params)
+        lcslib  =  sncosmo.realize_lcs(obstable, model, params,
+                                       trim_observations=True)
         lcs.append(lcslib)
     alllcsintables = vstack(lcs) 
     print alllcsintables[0]
     print alllcsintables[MJD].size
-    sncosmo.write_lc(alllcsintables, fname='simulatedlc.dat', format='ascii')
+    sncosmo.write_lc(alllcsintables, fname, format='ascii')
 
 
 def cosmoRate(z, alpha=2.6e-5, beta=1.5, H0=70):
