@@ -84,7 +84,8 @@ def manipulateObsTable(obstable):
     return None
 
 
-def simulate_simlib(simlibfile, snmodelsource, outfile='simulatedlc.dat'):
+def simulate_simlib(simlibfile, snmodelsource, outfile='LC/simulatedlc.dat',
+                    restrict=10):
     """
     Simulate SN based on the simlibfile using SNCosmo SALT models
 
@@ -116,6 +117,8 @@ def simulate_simlib(simlibfile, snmodelsource, outfile='simulatedlc.dat'):
                   effect_frames=['rest', 'obs'],
                   effect_names=['host', 'mw'])
 
+
+    maxSNperField = restrict
     # Different fields in SIMLIB are indexed by libids
     libids = obstables.keys()
     lcs = []  
@@ -145,7 +148,7 @@ def simulate_simlib(simlibfile, snmodelsource, outfile='simulatedlc.dat'):
         #obstable.add_column(col)
         redshifts = list(sncosmo.zdist(0., 1.2, ratefunc=cosmoRate, time = rangemjd, area=area))
         print 'num SN generated ', len(redshifts)
-	for z in redshifts:
+	for i, z in enumerate(redshifts):
 	    mabs = normal(-19.3, 0.3)
 	    model.set(z=z)
 	    model.set_source_peakabsmag(mabs, 'bessellb', 'ab')
@@ -153,14 +156,23 @@ def simulate_simlib(simlibfile, snmodelsource, outfile='simulatedlc.dat'):
             # RB: really should not be min, max but done like in catalogs
 	    p = {'z':z, 't0':uniform(minmjd, maxmjd), 'x0':x0, 'x1': normal(0., 1.), 'c': normal(0., 0.1)}
 	    params.append(p)
+            if maxSNperField is not None:
+                if i == maxSNperField:
+                    break
         print 'realizing SN'
         lcslib  =  sncosmo.realize_lcs(obstable, model, params,
                                        trim_observations=True)
         lcs.append(lcslib)
-    alllcsintables = vstack(lcs) 
-    print alllcsintables[0]
-    print alllcsintables[MJD].size
-    sncosmo.write_lc(alllcsintables, fname, format='ascii')
+        # alllcsintables = vstack(lcslib) 
+    # print alllcsintables[0]
+    # print alllcsintables[MJD].size
+    # write light curves to disk
+    for i, field in enumerate(lcs):
+        for snid, lc in enumerate(field):
+            sncosmo.write_lc(lc,
+                            fname=outfile+'_'+ str(i) + '_'+str(snid) + '.dat',
+                            format='ascii')
+    return lcs
 
 
 def cosmoRate(z, alpha=2.6e-5, beta=1.5, H0=70):
