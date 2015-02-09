@@ -148,7 +148,7 @@ def simulate_simlib(simlibfile, snmodelsource, outfile='LC/simulatedlc.dat',
         #obstable.add_column(col)
         redshifts = list(sncosmo.zdist(0., 1.2, ratefunc=cosmoRate, time = rangemjd, area=area))
         print 'num SN generated ', len(redshifts)
-	for i, z in enumerate(redshifts):
+        for i, z in enumerate(redshifts):
 	    mabs = normal(-19.3, 0.3)
 	    model.set(z=z)
 	    model.set_source_peakabsmag(mabs, 'bessellb', 'ab')
