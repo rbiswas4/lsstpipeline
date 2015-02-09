@@ -75,6 +75,7 @@ def getbandlcs(lc):
 if __name__ == '__main__':
     z = buildzdist('LC')
     import matplotlib.pyplot as plt
+    from astropy.cosmology import Planck13 as cosmo
     plt.hist(z, bins = 12, histtype='step')
     plt.show()
 
