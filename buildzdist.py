@@ -74,7 +74,10 @@ def getbandlcs(lc):
 
 if __name__ == '__main__':
     z = buildzdist('LC')
+    import seaborn as sns
+    sns.set()
+    sns.set_style('darkgrid')
     import matplotlib.pyplot as plt
-    plt.hist(z, bins = 12, histtype='step')
+    plt.hist(z, bins = 12, histtype='step', lw=2.0)
     plt.show()
 
